@@ -1,7 +1,17 @@
-//! PWM 16 channel controller i2cbus
-//! Data sheet https://cdn-shop.adafruit.com/datasheets/PCA9685.pdf
-//!
-
+// //
+// // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// // http://www.apache.org/license/LICENSE-2.0> or the MIT license
+// // <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// // option.  This file may not be copied, modified, or distributed
+// // except according to those terms.
+//
+// PWM 16 channel controller i2cbus
+// Data sheet https://cdn-shop.adafruit.com/datasheets/PCA9685.pdf
+// Note: this is for the moment almost and exact copy of the AdaFriut python code for the same.
+// The intention will be to make this a safer and faster implementation though.
+// I then hope Adafruit etc. will just use rust as well. Should save a lot of mistakes and also
+// really help power consumption.
+//
 extern crate i2cdev;
 
 use i2cdev::core::I2CDevice;
