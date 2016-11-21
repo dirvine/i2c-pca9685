@@ -17,7 +17,7 @@ fn main() {
 
     let mut servos = PCA9685::new(i2cdevice).unwrap();
     servos.set_pwm_freq(60.0).unwrap();
-    for i in 0..5 {
+    for i in 0..6 {
         servos.set_pwm(i, 0, SERVO_MIN).unwrap();
         thread::sleep(time::Duration::from_millis(500));
         servos.set_pwm(i, 0, SERVO_MAX).unwrap();
