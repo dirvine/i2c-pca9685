@@ -5,7 +5,6 @@
 extern crate i2cdev;
 
 use i2cdev::core::I2CDevice;
-// use std::error::Error;
 use std::{thread, time};
 
 // const DEFAULT_PCA9685_ADDRESS: u8 = 0x40;
@@ -35,38 +34,6 @@ fn sleep_5ms() {
     let five_millis = time::Duration::from_millis(10);
     thread::sleep(five_millis);
 }
-
-// #[derive(Debug)]
-// #[allow(missing_docs)]
-// pub enum PCAError<E> {
-//     Error(E),
-//     ParseError,
-// }
-//
-// impl<E: Error> fmt::Display for PCAError<E> {
-//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-//         match *self {
-//             PCAError::Error(ref e) => fmt::Display::fmt(e, f),
-//             PCAError::ParseError => fmt::Display::fmt(self.description(), f),
-//         }
-//     }
-// }
-//
-// impl<E: Error> Error for PCAError<E> {
-//     fn description(&self) -> &str {
-//         match *self {
-//             PCAError::Error(ref e) => e.description(),
-//             PCAError::ParseError => "Unable to Parse Data",
-//         }
-//     }
-//
-//     fn cause(&self) -> Option<&Error> {
-//         match *self {
-//             PCAError::Error(ref e) => Some(e),
-//             PCAError::ParseError => None,
-//         }
-//     }
-// }
 
 pub struct PCA9685<T: I2CDevice + Sized> {
     i2cdev: T,
