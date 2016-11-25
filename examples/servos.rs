@@ -7,8 +7,8 @@ use i2c_pca9685::PCA9685;
 use std::{thread, time};
 
 const DEFAULT_PCA9685_ADDRESS: u16 = 0x40;
-const SERVO_MAX: u8 = 600;
-const SERVO_MIN: u8 = 150;
+const SERVO_MIN: u8 = 75;
+const SERVO_MAX: u8 = 220;
 
 
 fn main() {
@@ -17,11 +17,17 @@ fn main() {
 
     let mut servos = PCA9685::new(i2cdevice).unwrap();
     servos.set_pwm_freq(60.0).unwrap();
-    for i in 0..6 {
-        servos.set_pwm(i, 0, SERVO_MIN).unwrap();
+    // servos.reset_all_servos().unwrap();
+    for i in 0..4 {
+        for j in SERVO_MIN..SERVO_MAX {
+            servos.set_pwm(i, 0, j).unwrap();
+        }
         thread::sleep(time::Duration::from_millis(500));
-        servos.set_pwm(i, 0, SERVO_MAX).unwrap();
+        for k in (SERVO_MIN..SERVO_MAX).rev() {
+            servos.set_pwm(i, 0, k).unwrap();
+        }
         thread::sleep(time::Duration::from_millis(500));
     }
+    // servos.reset_all_servos().unwrap();
 
 }

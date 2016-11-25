@@ -20,9 +20,6 @@ use std::{thread, time};
 // const DEFAULT_PCA9685_ADDRESS: u16 = 0x40;
 const MODE1: u8 = 0x00;
 const MODE2: u8 = 0x01;
-// const SUBADR1: u8 = 0x02;
-// const SUBADR2: u8 = 0x03;
-// const SUBADR3: u8 = 0x04;
 const PRESCALE: u8 = 0xFE;
 const LED0_ON_L: u8 = 0x06;
 const LED0_ON_H: u8 = 0x07;
@@ -32,13 +29,9 @@ const ALL_LED_ON_L: u8 = 0xFA;
 const ALL_LED_ON_H: u8 = 0xFB;
 const ALL_LED_OFF_L: u8 = 0xFC;
 const ALL_LED_OFF_H: u8 = 0xFD;
-const RESTART: u8 = 0x80;
 const SLEEP: u8 = 0x10;
 const ALLCALL: u8 = 0x01;
-// const INVRT: u8 = 0x10;
 const OUTDRV: u8 = 0x04;
-// const SWRESET: u8 = 0x06;
-// const ALLDEV: u8 = 0x00;
 
 fn sleep_5ms() {
     let five_millis = time::Duration::from_millis(50);
@@ -79,7 +72,7 @@ impl<T> PCA9685<T>
         self.i2cdev.smbus_write_byte_data(PRESCALE, prescale)?;
         self.i2cdev.smbus_write_byte_data(MODE1, oldmode)?;
         sleep_5ms();
-        self.i2cdev.smbus_write_byte_data(MODE1, oldmode | RESTART)?;
+        self.i2cdev.smbus_write_byte_data(MODE1, oldmode | 0xa1)?;
         Ok(())
     }
 
