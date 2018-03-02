@@ -77,22 +77,22 @@ impl<T> PCA9685<T>
     }
 
     #[allow(unused_must_use)]
-    pub fn set_pwm(&mut self, channel: u8, on: u8, off: u8) -> Result<(), T::Error> {
+    pub fn set_pwm(&mut self, channel: u8, on: u16, off: u16) -> Result<(), T::Error> {
         // Sets a single PWM channel.
-        self.i2cdev.smbus_write_byte_data(LED0_ON_L + 4 * channel, on & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(LED0_ON_H + 4 * channel, on >> 7)?;
-        self.i2cdev.smbus_write_byte_data(LED0_OFF_L + 4 * channel, off & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(LED0_OFF_H + 4 * channel, off >> 7)?;
+        self.i2cdev.smbus_write_byte_data(LED0_ON_L + 4 * channel, (on & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_ON_H + 4 * channel, (on >> 8) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_OFF_L + 4 * channel, (off & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_OFF_H + 4 * channel, (off >> 8) as u8)?;
         Ok(())
     }
 
     #[allow(unused_must_use)]
-    pub fn set_all_pwm(&mut self, on: u8, off: u8) -> Result<(), T::Error> {
+    pub fn set_all_pwm(&mut self, on: u16, off: u16) -> Result<(), T::Error> {
         // Sets all PWM channels.
-        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_L, on & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_H, on >> 7)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_L, off & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_H, off >> 7)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_L, (on & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_H, (on >> 8) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_L, (off & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_H, (off >> 8) as u8)?;
         Ok(())
     }
 
