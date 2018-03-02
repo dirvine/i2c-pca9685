@@ -7,8 +7,8 @@ use i2c_pca9685::PCA9685;
 use std::{thread, time};
 
 const DEFAULT_PCA9685_ADDRESS: u16 = 0x40;
-const SERVO_MIN: u8 = 65;
-const SERVO_MAX: u8 = 220;
+const SERVO_MIN: u16 = 65;
+const SERVO_MAX: u16 = 220;
 
 
 fn main() {

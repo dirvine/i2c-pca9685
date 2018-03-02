@@ -45,7 +45,6 @@ pub struct PCA9685<T: I2CDevice + Sized> {
 impl<T> PCA9685<T>
     where T: I2CDevice + Sized
 {
-    #[allow(unused_must_use)]
     pub fn new(mut i2cdev: T) -> Result<PCA9685<T>, T::Error> {
         // self.set_all_pwm(0, 0)
         i2cdev.smbus_write_byte_data(MODE2, OUTDRV)?;
@@ -58,7 +57,6 @@ impl<T> PCA9685<T>
         Ok(PCA9685 { i2cdev: i2cdev })
     }
     // 60 is a decent value for servos
-    #[allow(unused_must_use)]
     pub fn set_pwm_freq(&mut self, freq: f32) -> Result<(), T::Error> {
         // Set the PWM frequency to the provided value in hertz.
         let mut prescaleval = 25000000.0; // 25MHz
@@ -76,35 +74,26 @@ impl<T> PCA9685<T>
         Ok(())
     }
 
-    #[allow(unused_must_use)]
-    pub fn set_pwm(&mut self, channel: u8, on: u8, off: u8) -> Result<(), T::Error> {
+    pub fn set_pwm(&mut self, channel: u8, on: u16, off: u16) -> Result<(), T::Error> {
         // Sets a single PWM channel.
-        self.i2cdev.smbus_write_byte_data(LED0_ON_L + 4 * channel, on & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(LED0_ON_H + 4 * channel, on >> 7)?;
-        self.i2cdev.smbus_write_byte_data(LED0_OFF_L + 4 * channel, off & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(LED0_OFF_H + 4 * channel, off >> 7)?;
+        self.i2cdev.smbus_write_byte_data(LED0_ON_L + 4 * channel, (on & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_ON_H + 4 * channel, (on >> 8) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_OFF_L + 4 * channel, (off & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(LED0_OFF_H + 4 * channel, (off >> 8) as u8)?;
         Ok(())
     }
 
-    #[allow(unused_must_use)]
-    pub fn set_all_pwm(&mut self, on: u8, off: u8) -> Result<(), T::Error> {
+    pub fn set_all_pwm(&mut self, on: u16, off: u16) -> Result<(), T::Error> {
         // Sets all PWM channels.
-        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_L, on & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_H, on >> 7)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_L, off & 0xFF)?;
-        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_H, off >> 7)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_L, (on & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_ON_H, (on >> 8) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_L, (off & 0xFF) as u8)?;
+        self.i2cdev.smbus_write_byte_data(ALL_LED_OFF_H, (off >> 8) as u8)?;
         Ok(())
     }
 
-    #[allow(unused_must_use)]
     pub fn reset_all_servos(&mut self) -> Result<(), T::Error> {
         self.i2cdev.smbus_write_byte(0x00)?;
         Ok(())
     }
-}
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {}
 }
